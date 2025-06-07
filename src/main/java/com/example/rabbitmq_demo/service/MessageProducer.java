@@ -25,7 +25,6 @@ public class MessageProducer {
     }
 
     public void sendMessage(String message) {
-        LOGGER.info(String.format("Sending message -> %s", message));
         rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
     }
 }
