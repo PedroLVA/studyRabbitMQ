@@ -1,5 +1,6 @@
 package com.example.rabbitmq_demo.service;
 
+import com.example.rabbitmq_demo.dto.MessageRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,7 +25,7 @@ public class MessageProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(String message) {
-        rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
+    public void sendMessage(MessageRequest request) {
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, request);
     }
 }
