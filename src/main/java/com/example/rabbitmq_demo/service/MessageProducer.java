@@ -1,5 +1,6 @@
 package com.example.rabbitmq_demo.service;
 
+import com.example.rabbitmq_demo.dto.CustomMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,7 +25,9 @@ public class MessageProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(String message) {
+    // Update the method to accept the CustomMessage object
+    public void sendMessage(CustomMessage message) {
+        LOGGER.info(String.format("Sending JSON message -> %s", message.toString()));
         rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
     }
 }
