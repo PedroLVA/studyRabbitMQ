@@ -43,4 +43,34 @@ class MessageProducerTest {
                 .convertAndSend(expectedExchange, expectedRoutingKey, message);
     }
 
+    @Test
+    void sendMessage_shouldFAIL_whenExpectingWrongRoutingKey() {
+
+        String expectedExchange = "test-exchange";
+
+        String wrongRoutingKey = "this-is-not-the-correct-routing-key";
+        CustomMessage message = new CustomMessage("Hello World!", LocalDateTime.now());
+
+
+        messageProducer.sendMessage(message);
+
+
+        verify(rabbitTemplate, times(1))
+                .convertAndSend(expectedExchange, wrongRoutingKey, message);
+    }
+
+    @Test
+    void sendMessage_shouldFAIL_whenExpectingTooManyInvocations() {
+
+        String expectedExchange = "test-exchange";
+        String expectedRoutingKey = "test-routing-key";
+        CustomMessage message = new CustomMessage("Hello World!", LocalDateTime.now());
+
+        messageProducer.sendMessage(message);
+
+
+        verify(rabbitTemplate, times(2)) // <-- WRONG VERSION: We expect 2 calls
+                .convertAndSend(expectedExchange, expectedRoutingKey, message);
+    }
+
 }
